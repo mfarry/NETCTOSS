@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.lanou.bean.RoleInfo">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+
+    <collection property="adminInfoList" column="" select="com.lanou.mapper.AdminInfoMapper.selectByPrimaryKey"
   </resultMap>
   <sql id="Base_Column_List">
     role_id, name

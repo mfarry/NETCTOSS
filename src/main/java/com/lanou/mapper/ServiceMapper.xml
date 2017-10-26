@@ -187,7 +187,7 @@
     UPDATE service SET status = #{status,jdbcType=CHAR},close_date=#{closeDate,jdbcType=TIMESTAMP}  where service_id = #{serviceId,jdbcType=INTEGER}
   </update>
 
-<select id="searchService" parameterType="com.lanou.bean.Service" resultMap="BaseResultMap">
+<select id="searchService" parameterType="String" resultMap="BaseResultMap">
 SELECT * FROM service
 <where>
   <if test="osUsername!=null">
@@ -197,7 +197,7 @@ SELECT * FROM service
 and unix_host Like CONCAT('%',#{unixHost,jdbcType=VARCHAR},'%')
   </if>
   <if test="idcardNo!=null">
-    and account_id in (select account_id from account where idcard_no Like CONCAT('%',#{idcardNo,jdbcType=VARCHAR},'%'))
+    and account_id in (select account_id from account where idcard_no =#{idcardNo,jdbcType=VARCHAR})
 --     and idcard_no Like CONCAT('%',#{idcardNo,jdbcType=VARCHAR},'%')
   </if>
   <if test="status!=null">

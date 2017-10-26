@@ -9,6 +9,7 @@
     <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="enrolldate" jdbcType="TIMESTAMP" property="enrolldate" />
+
   </resultMap>
   <sql id="Base_Column_List">
     admin_id, admin_code, password, name, telephone, email, enrolldate

@@ -77,25 +77,9 @@
         }
 
 
-        function getIdcardById(res) {
-            var accountId=res.accountId;
-            $.ajax({
-                url:"/getIdcardById",
-                data:{
-                    accountId:accountId
-                },
-                success:function (result) {
-
-                    var data = result.data;
-
-                    addNewTr(data)
-                }
-            })
-        }
-
         function addNewTr(msg) {
 
-            var serviceId = $("<td></td>").html(msg.serviceId);
+            var serviceId = $("<td></td>").html(msg.serviceId).click(serviceDetailById).attr("id",msg.serviceId);
             var accountId = $("<td></td>").html(msg.accountId);
             var idcardNo = $("<td></td>").html(msg.account.idcardNo);
             var realName = $("<td></td>").html(msg.account.realName);
@@ -125,6 +109,28 @@
 
 
         }
+
+
+function serviceDetailById() {
+    var mid = $(this).attr("id");
+            $.ajax({
+                url:"/serviceDetailById",
+                data:{
+                    serviceId:mid
+                },
+                success:function (res) {
+                    window.location.href="/sDetail";
+                }
+
+            })
+}
+
+
+
+
+
+
+
 
 
         function findServiceId() {
@@ -235,8 +241,8 @@
 
                     for (var i = 0; i < msg.length; i++) {
                        var msgList=msg[i];
-                        getIdcardById(msgList)
-addNewTr(msgList)
+//                        getIdcardById(msgList)
+                         addNewTr(msgList)
                     }
                 }
             })
@@ -275,7 +281,7 @@ addNewTr(msgList)
 <div id="navi">
     <ul id="menu">
         <li><a href="../index.html" class="index_off"></a></li>
-        <li><a href="../role/role_list.html" class="role_off"></a></li>
+        <li><a href="/rList" class="role_off"></a></li>
         <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
         <li><a href="/fList" class="fee_off"></a></li>
         <li><a href="/account" class="account_off"></a></li>

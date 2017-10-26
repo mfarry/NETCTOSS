@@ -51,12 +51,19 @@ public class ServiceController {
 
     }
 
+    @RequestMapping(value = "/sDetail")
+    public String sDetail() {
+        return "/service/service_detail";
+
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/queryAllService")
-    public AjaxResult queryAllService() {
+    public AjaxResult queryAllService(HttpServletRequest request, HttpServletResponse response) {
         List<Service> serviceList = serviceService.queryAllService();
-
+        HttpSession session = request.getSession();
+        session.setAttribute("service", serviceList);
         return new AjaxResult(serviceList);
     }
 
@@ -124,19 +131,19 @@ public class ServiceController {
 
     @ResponseBody
     @RequestMapping(value = "/getService")
-    public AjaxResult getService(HttpServletRequest request,HttpServletResponse response){
+    public AjaxResult getService(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession();
 
         Account account = (Account) session.getAttribute("account");
-    return new AjaxResult(account);
+        return new AjaxResult(account);
 
     }
 
 
     @ResponseBody
-    @RequestMapping(value ="/getCostType")
-    public AjaxResult getCostType(){
+    @RequestMapping(value = "/getCostType")
+    public AjaxResult getCostType() {
         List<Cost> costList = costService.findAll();
         return new AjaxResult(costList);
 
@@ -144,46 +151,67 @@ public class ServiceController {
 
     @ResponseBody
     @RequestMapping(value = "/addService")
-    public AjaxResult insertService(Service service){
+    public AjaxResult insertService(Service service) {
         int insert = serviceService.insert(service);
         return new AjaxResult(insert);
 
     }
+
     @ResponseBody
     @RequestMapping(value = "/searchService")
     public AjaxResult searchService(
-            @RequestParam("idcardNo")String idcardNo,
-            @RequestParam("osUsername")String osUsername,
-            @RequestParam("unixHost")String unixHost,
-            @RequestParam("status")String status
-    ){
+            @RequestParam("idcardNo") String idcardNo,
+            @RequestParam("osUsername") String osUsername,
+            @RequestParam("unixHost") String unixHost,
+            @RequestParam("status") String status
+    ) {
 
 
-        if (osUsername.equals("")){
-            osUsername=null;
+        if (osUsername.equals("")) {
+            osUsername = null;
         }
-        if (unixHost.equals("")){
-            unixHost=null;
+        if (unixHost.equals("")) {
+            unixHost = null;
         }
-        if (idcardNo.equals("")){
-            idcardNo=null;
-        }
-
-        if (status.equals("")){
-            status=null;
+        if (idcardNo.equals("")) {
+            idcardNo = null;
         }
 
-        List<Service> serviceList = serviceService.searchService(osUsername,unixHost,idcardNo,status);
+        if (status.equals("")) {
+            status = null;
+        }
+
+        List<Service> serviceList = serviceService.searchService(osUsername, unixHost, idcardNo, status);
 
         return new AjaxResult(serviceList);
 
     }
-@ResponseBody
-    @RequestMapping(value = "/getIdcardById")
-    public AjaxResult getIdcardById(Integer accountId){
 
-    Account account = accountService.selectByPrimaryKey(accountId);
-    return new AjaxResult(account);
+    @ResponseBody
+    @RequestMapping(value = "/getIdcardById")
+    public AjaxResult getIdcardById(Integer accountId) {
+
+        Account account = accountService.selectByPrimaryKey(accountId);
+        return new AjaxResult(account);
+    }
+@ResponseBody
+    @RequestMapping(value = "/serviceDetailById")
+    public AjaxResult serviceDetailById(HttpServletRequest request,HttpServletResponse response,Integer serviceId){
+    Service service = serviceService.selectByPrimaryKey(serviceId);
+    HttpSession session=request.getSession();
+    session.setAttribute("allService",service);
+    return new AjaxResult(service);
 }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/getServiceDetail")
+    public AjaxResult getServiceDetail(HttpServletRequest request,HttpServletResponse response){
+
+        HttpSession session=request.getSession();
+        Service service = (Service) session.getAttribute("allService");
+        return new AjaxResult(service);
+    }
 
 }
