@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>云科技</title>
+    <link type="text/css" rel="stylesheet" media="all" href="../styles/global.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css"/>
+    <script src="/js/jquery-3.2.1.js"></script>
+    <script language="javascript" type="text/javascript">
+        function getAll() {
+
+            $.ajax({
+                url: "/pageinfoacount",
+                data: {
+                    pageNo: 1,
+                    pagesize: 5
+                },
+                success: function (res) {
+                    var data = res.list;
+
+                    $.each(data, function (i, domEle) {
+                        addNewTr(domEle)
+                    })
+                    page(res);
+                }
+            });
+
+        }
+
+        getAll()
+
+
+        function searchAccount() {
+            $.ajax({
+                url: "/search",
+                data: {
+                    idcardNo: $("#idcardNo").val(),
+                    realName: $("#realName").val(),
+                    loginName: $("#loginName").val(),
+                    status:$("#test option:selected").val()
+//                    pageNo: 1,
+//                    pagesize: 5
+                },
+                success: function (res) {
+                    $(".emp").remove();
+                    var data = res.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var datum = data[i];
+
+                        addNewTr(datum)
+                    }
+//                    page(res);
+                }
+            })
+        }
+        function addNewTr(msg) {
+            var accountId = $("<td></td>").html(msg.accountId);
+            var realName = $("<td></td>").html(msg.realName).click(findAccountId).attr("name", msg.accountId);
+            var idcardNo = $("<td></td>").html(msg.idcardNo);
+            var loginName = $("<td></td>").html(msg.loginName);
+            var createDate = $("<td></td>").html(msg.createDate);
+            var lastLoginTime = $("<td></td>").html(msg.lastLoginTime);
+            if (msg.status == 0) {
+                var status = $("<td></td>").html("暂停");
+                var inp = $("<td></td>").html("<input type='button' value='启用' class='btn_start' />").click(strFee).attr("str", msg.accountId)
+            } else if (msg.status == 1) {
+                var status = $("<td></td>").html("开通");
+                var inp = $("<td></td>").html("<input type='button' value='暂停' class='btn_pause' />").click(closeFee).attr("clo", msg.accountId)
+            } else if (msg.status == 2) {
+                var status = $("<td></td>").html("删除");
+                var inp = $("<td></td>").html("<input type='button' value='启用' class='btn_start' />")
+            }
+
+
+//
+
+            var update = $("<td></td>").html("<input type='button' value='修改' class='btn_modify' />").click(findById).attr("upd", msg.accountId);
+            var del = $("<td></td>").html("<input type='button' value='删除' class='btn_delete'/>").click(findId).attr("num", msg.accountId);
+            var trob = $("<tr></tr>").attr("class", "emp").append(accountId).append(realName).append(idcardNo).append(loginName).append(status)
+                .append(createDate).append(lastLoginTime)
+                .append(inp).append(update).append(del);
+
+            $("#datalist").append(trob);
+
+
+        }
+
+
+        function findAccountId() {
+            var mid = $(this).attr("name");
+            $.ajax({
+                url: "/findAccountId",
+                data: {
+                    accountId: mid
+
+                },
+                success: function (res) {
+                    window.location.href = "/aDetail";
+                }
+            })
+        }
+
+        function closeFee() {
+            var mid = $(this).attr("clo");
+
+            var pauseDate = new Date();
+            $.ajax({
+                url: "/pause",
+                data: {
+                    accountId: mid,
+                    status: 0,
+                    pauseDate: pauseDate
+                },
+                success: function (res) {
+                    window.location.href = "/account"
+                }
+            })
+        }
+
+
+        function strFee() {
+            var mid = $(this).attr("str");
+            $.ajax({
+                url: "/updateFee",
+                data: {
+                    accountId: mid,
+                    status: 1
+
+                },
+                success: function (res) {
+
+                    delPause(mid)
+                }
+            })
+        }
+
+
+        function delPause(mid) {
+
+            $.ajax({
+                url: "/delPause",
+                data: {
+                    accountId: mid
+
+                },
+                success: function (res) {
+                    window.location.href = "/account";
+                }
+            })
+        }
+
+        function findId() {
+            var mid = $(this).attr("num");
+
+            $.ajax({
+                url: "/findByIdAccount",
+                data: {
+                    accountId: mid
+                },
+                success: function (res) {
+                    var data = res.data;
+                    if (data.status == 0) {
+                        deleteAccount(mid)
+                    } else {
+                        window.location.href = "/account";
+
+                    }
+
+                }
+            })
+
+        }
+
+        function findById() {
+            var mid = $(this).attr("upd");
+
+            $.ajax({
+                url: "/findIdAccount",
+                data: {
+                    accountId: mid
+                },
+
+                success: function (res) {
+                    var data = res.data;
+
+                    if (data.status == 0) {
+                        window.location.href = "/aMod";
+                    } else {
+                        window.location.href = "/account";
+                    }
+
+
+                }
+            })
+        }
+
+
+        //删除
+        function deleteAccount(id) {
+            var closeDate = new Date();
+//                var r = window.confirm("确定要删除此账务账号吗？\r\n删除后将不能恢复，且会删除其下属的所有业务账号。");
+//                document.getElementById("operate_result_info").style.display = "block";
+            $.ajax({
+
+                url: "/deleteAccount",
+                data: {
+                    accountId: id,
+                    closeDate: closeDate,
+                    status: 2
+                },
+                success: function (res) {
+                    window.location.href = "/account";
+                }
+            })
+
+        }
+
+
+        //开通或暂停
+        function setState() {
+            var r = window.confirm("确定要开通此账务账号吗？");
+            document.getElementById("operate_result_info").style.display = "block";
+        }
+
+
+        function page(data) {
+            $("#pages").empty()
+            var size = 5
+            if (data.isFirstPage) {
+                $("<a href='#'>上一页</a>").attr("no", 1).attr("size", size).click(pageNo).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>上一页</a>").attr("no", data.prePage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+
+            for (var i = 1; i <= data.pages; i++) {
+                $("<a href='#'>" + i + "</a>").attr("no", i).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+            if (data.isLastPage) {
+                $("<a href='#'>下一页</a>").attr("no", data.lastPage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>下一页</a>").attr("no", data.nextPage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+
+
+        }
+        function pageNo() {
+            var pageNo = $(this).attr("no")
+            var pageSize = $(this).attr("size")
+            $.ajax({
+                url: "/pageinfoacount",
+                data: {
+                    pageNo: pageNo,
+                    pagesize: pageSize
+                },
+                success: function (result) {
+                    console.log(result)
+                    $(".emp").remove()
+                    $.each(result.list, function (i, domEle) {
+                        addNewTr(domEle)
+                    })
+
+                    page(result)
+                }
+
+
+            })
+
+
+        }
+
+
+
+    </script>
+</head>
+<body>
+<!--Logo区域开始-->
+<div id="header">
+    <img src="../images/logo.png" alt="logo" class="left"/>
+    <a href="#">[退出]</a>
+</div>
+<!--Logo区域结束-->
+<!--导航区域开始-->
+<div id="navi">
+    <ul id="menu">
+        <li><a href="../index.html" class="index_off"></a></li>
+        <li><a href="../role/role_list.html" class="role_off"></a></li>
+        <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+        <li><a href="/fList" class="fee_off"></a></li>
+        <li><a href="/account" class="account_on"></a></li>
+        <li><a href="/sList" class="service_off"></a></li>
+        <li><a href="../bill/bill_list.html" class="bill_off"></a></li>
+        <li><a href="../report/report_list.html" class="report_off"></a></li>
+        <li><a href="../user/user_info.html" class="information_off"></a></li>
+        <li><a href="../user/user_modi_pwd.html" class="password_off"></a></li>
+    </ul>
+</div>
+<!--导航区域结束-->
+<!--主要区域开始-->
+<div id="main">
+
+    <!--查询-->
+    <div class="search_add">
+        <div>身份证：<input type="text" class="text_search" id="idcardNo"/></div>
+        <div>姓名：<input type="text" class="width70 text_search" id="realName"/></div>
+        <div>登录名：<input type="text" class="text_search" id="loginName"/></div>
+        <div>
+            状态：
+            <select class="select_search" id="test">
+                <option value="">全部</option>
+                <option value="1">开通</option>
+                <option value="0">暂停</option>
+                <option value="2">删除</option>
+            </select>
+        </div>
+        <div><input type="button" value="搜索" class="btn_search" onclick="searchAccount()"/></div>
+        <input type="button" value="增加" class="btn_add" onclick="location.href='/aAdd'"/>
+    </div>
+    <!--删除等的操作提示-->
+    <div id="operate_result_info" class="operate_success">
+        <img src="../images/close.png" onclick="this.parentNode.style.display='none';"/>
+        删除成功，且已删除其下属的业务账号！
+    </div>
+    <!--数据区域：用表格展示数据-->
+    <div id="data">
+        <table id="datalist">
+            <tr>
+                <th>账号ID</th>
+                <th>姓名</th>
+                <th class="width150">身份证</th>
+                <th>登录名</th>
+                <th>状态</th>
+                <th class="width100">创建日期</th>
+                <th class="width150">上次登录时间</th>
+                <th colspan="3">操作</th>
+            </tr>
+
+        </table>
+        <p>业务说明：<br/>
+            1、创建则开通，记载创建时间；<br/>
+            2、暂停后，记载暂停时间；<br/>
+            3、重新开通后，删除暂停时间；<br/>
+            4、删除后，记载删除时间，标示为删除，不能再开通、修改、删除；<br/>
+            5、暂停账务账号，同时暂停下属的所有业务账号；<br/>
+            6、暂停后重新开通账务账号，并不同时开启下属的所有业务账号，需要在业务账号管理中单独开启；<br/>
+            7、删除账务账号，同时删除下属的所有业务账号。</p>
+    </div>
+    <!--分页-->
+    <div id="pages">
+        <a href="#">首页</a>
+
+        <a href="#">末页</a>
+    </div>
+
+</div>
+<!--主要区域结束-->
+<div id="footer">
+    <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
+    <p>版权所有(C)云科技有限公司 </p>
+</div>
+</body>
+</html>
