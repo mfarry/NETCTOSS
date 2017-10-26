@@ -53,6 +53,17 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceMapper.delService(service);
     }
 
+    public int insert(Service record) {
+        return serviceMapper.insert(record);
+    }
+
+    public List<Service> searchService(String os,String unix,String idcardNo,String status) {
+
+
+        List<Service> services = serviceMapper.searchService(os, unix, idcardNo, status);
+        return services;
+    }
+
 
     public PageInfo<Service>queryCost(Integer pageNo, Integer pageSize){
 

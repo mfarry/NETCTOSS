@@ -3,6 +3,7 @@ package com.lanou.mapper;
 import com.lanou.bean.Account;
 import com.lanou.bean.Cost;
 import com.lanou.bean.Service;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,6 +34,11 @@ public interface ServiceMapper {
 
     int delService(Service service);
 
+    List<Service>searchService(
+            @Param("osUsername") String os,
+            @Param("unixHost") String unix,
+            @Param("idcardNo") String idcardNo,
+            @Param("status") String status);
 
 
 }

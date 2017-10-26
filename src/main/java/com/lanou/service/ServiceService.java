@@ -26,4 +26,7 @@ public interface ServiceService {
     Service selectByPrimaryKey(Integer serviceId);
 
     int delService(Service service);
+
+    int insert(Service record);
+    List<Service>searchService(String os, String unix,String idcardNo,String status);
 }

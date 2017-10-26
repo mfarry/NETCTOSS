@@ -75,6 +75,24 @@
 
 
         }
+
+
+        function getIdcardById(res) {
+            var accountId=res.accountId;
+            $.ajax({
+                url:"/getIdcardById",
+                data:{
+                    accountId:accountId
+                },
+                success:function (result) {
+
+                    var data = result.data;
+
+                    addNewTr(data)
+                }
+            })
+        }
+
         function addNewTr(msg) {
 
             var serviceId = $("<td></td>").html(msg.serviceId);
@@ -138,10 +156,9 @@
                     serviceId: res,
                     closeDate: closeDate,
                     status: 2
-
                 },
                 success: function (res) {
-                    window.location.href="/sList"
+                    window.location.href = "/sList"
                 }
 
             })
@@ -200,6 +217,32 @@
         }
 
 
+
+
+
+        function searchService() {
+            $.ajax({
+                url: "/searchService",
+                data: {
+                    osUsername: $("#osUsername").val(),
+                    unixHost: $("#unixHost").val(),
+                    idcardNo: $("#idcardNo").val(),
+                    status: $("#status option:selected").val()
+                },
+                success: function (res) {
+                    $(".emp").remove();
+                    var msg = res.data;
+
+                    for (var i = 0; i < msg.length; i++) {
+                       var msgList=msg[i];
+                        getIdcardById(msgList)
+addNewTr(msgList)
+                    }
+                }
+            })
+        }
+
+
         //显示角色详细信息
         function showDetail(flag, a) {
             var detailDiv = a.parentNode.getElementsByTagName("div")[0];
@@ -249,18 +292,18 @@
 
     <!--查询-->
     <div class="search_add">
-        <div>OS 账号：<input type="text" value="" class="width100 text_search"/></div>
-        <div>服务器 IP：<input type="text" value="" class="width100 text_search"/></div>
-        <div>身份证：<input type="text" value="" class="text_search"/></div>
+        <div>OS 账号：<input type="text" class="width100 text_search" id="osUsername"/></div>
+        <div>服务器 IP：<input type="text" class="width100 text_search" id="unixHost"/></div>
+        <div>身份证：<input type="text" class="text_search" id="idcardNo"/></div>
         <div>状态：
-            <select class="select_search">
-                <option>全部</option>
-                <option>开通</option>
-                <option>暂停</option>
-                <option>删除</option>
+            <select class="select_search" id="status">
+                <option value="">全部</option>
+                <option value="1">开通</option>
+                <option value="0">暂停</option>
+                <option value="2">删除</option>
             </select>
         </div>
-        <div><input type="button" value="搜索" class="btn_search"/></div>
+        <div><input type="button" value="搜索" class="btn_search" onclick="searchService()"/></div>
         <input type="button" value="增加" class="btn_add" onclick="location.href='/sAdd';"/>
     </div>
     <!--删除的操作提示-->

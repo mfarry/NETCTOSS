@@ -291,6 +291,7 @@
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <SequenceIdentity>1</SequenceIdentity>
     </column>
     <column id="93" parent="37" name="account_id">
       <Position>2</Position>
@@ -333,9 +334,17 @@
       <DataType>int(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="102" parent="37" name="PRIMARY">
+    <index id="102" parent="37" name="service_service_id_uindex">
+      <ColNames>service_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="103" parent="37" name="PRIMARY">
       <ColNames>service_id</ColNames>
       <Primary>1</Primary>
+    </key>
+    <key id="104" parent="37" name="service_service_id_uindex">
+      <ColNames>service_id</ColNames>
+      <UnderlyingIndexName>service_service_id_uindex</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>
