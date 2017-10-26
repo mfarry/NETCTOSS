@@ -32,6 +32,6 @@ public interface AccountService {
 
 List<Account>serch(Account account);
 
-
+    Account searchAccount(Account account);
 
 }

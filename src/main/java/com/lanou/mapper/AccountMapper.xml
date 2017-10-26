@@ -308,4 +308,9 @@ select * from account
 </where>
 
 </select>
+
+
+  <select id="searchAccount" parameterType="com.lanou.bean.Account" resultMap="BaseResultMap">
+    SELECT * FROM account WHERE idcard_no=#{idcardNo,jdbcType=CHAR}
+  </select>
 </mapper>

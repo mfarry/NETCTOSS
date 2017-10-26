@@ -93,11 +93,11 @@
                 var status = $("<td></td>").html("删除");
                 var inp = $("<td></td>").html("<input type='button' value='启用' class='btn_start' />")
             }
-            var lastLoginIp = $("<td></td>").html(msg.account.lastLoginIp);
+            var lastLoginIp = $("<td></td>").html(msg.unixHost);
             var name = $("<td></td>").html(msg.cost.name);
 
 
-            var update = $("<td></td>").html("<input type='button' value='修改' class='btn_modify' />")
+            var update = $("<td></td>").html("<a href='/sMod'><input type='button' value='修改' class='btn_modify' /></a> ")
             var del = $("<td></td>").html("<input type='button' value='删除' class='btn_delete'/>").click(findServiceId).attr("num", msg.serviceId);
             var trob = $("<tr></tr>").attr("class", "emp").append(serviceId).append(accountId).append(idcardNo).append(realName).append(osUsername)
                 .append(status).append(lastLoginIp).append(name)
@@ -261,7 +261,7 @@
             </select>
         </div>
         <div><input type="button" value="搜索" class="btn_search"/></div>
-        <input type="button" value="增加" class="btn_add" onclick="location.href='service_add.html';"/>
+        <input type="button" value="增加" class="btn_add" onclick="location.href='/sAdd';"/>
     </div>
     <!--删除的操作提示-->
     <div id="operate_result_info" class="operate_success">

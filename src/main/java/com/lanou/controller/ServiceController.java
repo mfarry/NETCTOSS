@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lanou.bean.Account;
 import com.lanou.bean.Cost;
 import com.lanou.bean.Service;
+import com.lanou.service.AccountService;
 import com.lanou.service.ServiceService;
 import com.lanou.utils.AjaxResult;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,28 @@ public class ServiceController {
 
     @Resource
     private ServiceService serviceService;
+    @Resource
+    private AccountService accountService;
 
     @RequestMapping(value = "/sList")
     public String sList(){
         return "/service/service_list";
 
     }
+
+
+    @RequestMapping(value = "/sMod")
+    public String sMod(){
+        return "/service/service_modi";
+
+    }
+
+    @RequestMapping(value = "/sAdd")
+    public String sAdd(){
+        return "/service/service_add";
+
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/queryAllService")
@@ -83,5 +100,13 @@ public class ServiceController {
     public AjaxResult delService(Service service){
         int i = serviceService.delService(service);
         return new AjaxResult(i);
+    }
+    @ResponseBody
+    @RequestMapping(value = "/searchAccount")
+    public AjaxResult searchAccount(Account account){
+
+        Account account1 = accountService.searchAccount(account);
+
+        return new AjaxResult(account1);
     }
 }

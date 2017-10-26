@@ -186,4 +186,7 @@
   <update id="delService" parameterType="com.lanou.bean.Service">
     UPDATE service SET status = #{status,jdbcType=CHAR},close_date=#{closeDate,jdbcType=TIMESTAMP}  where service_id = #{serviceId,jdbcType=INTEGER}
   </update>
+
+
+
 </mapper>

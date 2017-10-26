@@ -29,5 +29,5 @@ public interface AccountMapper {
 
     List<Account> search(Account account);
 
-
+    Account searchAccount(Account account);
 }

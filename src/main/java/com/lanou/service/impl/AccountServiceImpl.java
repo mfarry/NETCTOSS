@@ -68,6 +68,10 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.search(account);
     }
 
+    public Account searchAccount(Account account) {
+        return accountMapper.searchAccount(account);
+    }
+
 
     public PageInfo<Account>queryAccount(Integer pageNo, Integer pageSize){
 
