@@ -5,6 +5,16 @@ public class ModuleInfo {
 
     private String name;
 
+    private RoleInfo roleInfo;
+
+    public RoleInfo getRoleInfo() {
+        return roleInfo;
+    }
+
+    public void setRoleInfo(RoleInfo roleInfo) {
+        this.roleInfo = roleInfo;
+    }
+
     public Integer getModuleId() {
         return moduleId;
     }

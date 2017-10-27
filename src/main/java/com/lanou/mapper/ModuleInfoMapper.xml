@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.lanou.bean.ModuleInfo">
     <id column="module_id" jdbcType="INTEGER" property="moduleId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+
+
   </resultMap>
   <sql id="Base_Column_List">
     module_id, name

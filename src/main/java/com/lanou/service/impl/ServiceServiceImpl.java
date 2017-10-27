@@ -7,6 +7,7 @@ import com.lanou.bean.Cost;
 import com.lanou.bean.Service;
 import com.lanou.mapper.ServiceMapper;
 import com.lanou.service.ServiceService;
+import org.apache.ibatis.annotations.Param;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -57,10 +58,14 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceMapper.insert(record);
     }
 
-    public List<Service> searchService(String os,String unix,String idcardNo,String status) {
+    public List<Service> searchService(
+          @Param("osUsername") String osUsername,
+          @Param("unixHost") String unixHost,
+          @Param("idcardNo") String idcardNo,
+          @Param("status") String status) {
 
 
-        List<Service> services = serviceMapper.searchService(os, unix, idcardNo, status);
+        List<Service> services = serviceMapper.searchService(osUsername, unixHost, idcardNo, status);
         return services;
     }
 

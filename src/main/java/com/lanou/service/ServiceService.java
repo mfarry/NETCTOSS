@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lanou.bean.Account;
 import com.lanou.bean.Cost;
 import com.lanou.bean.Service;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,5 +29,9 @@ public interface ServiceService {
     int delService(Service service);
 
     int insert(Service record);
-    List<Service>searchService(String os, String unix,String idcardNo,String status);
+    List<Service>searchService(
+          @Param("osUsername") String osUsername,
+          @Param("unixHost")  String unixHost,
+          @Param("idcardNo")  String idcardNo,
+          @Param("status")  String status);
 }

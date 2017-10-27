@@ -17,16 +17,8 @@ public class AdminInfo {
 
     private Date enrolldate;
 
-    private RoleInfo roleInfo;
 
-    public RoleInfo getRoleInfo() {
 
-        return roleInfo;
-    }
-
-    public void setRoleInfo(RoleInfo roleInfo) {
-        this.roleInfo = roleInfo;
-    }
 
     public Integer getAdminId() {
         return adminId;

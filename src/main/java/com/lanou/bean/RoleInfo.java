@@ -7,14 +7,14 @@ public class RoleInfo {
 
     private String name;
 
-    List<AdminInfo>adminInfoList;
+    List<ModuleInfo>moduleInfoList;
 
-    public List<AdminInfo> getAdminInfoList() {
-        return adminInfoList;
+    public List<ModuleInfo> getModuleInfoList() {
+        return moduleInfoList;
     }
 
-    public void setAdminInfoList(List<AdminInfo> adminInfoList) {
-        this.adminInfoList = adminInfoList;
+    public void setModuleInfoList(List<ModuleInfo> moduleInfoList) {
+        this.moduleInfoList = moduleInfoList;
     }
 
     public Integer getRoleId() {
@@ -31,5 +31,14 @@ public class RoleInfo {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "RoleInfo{" +
+                "roleId=" + roleId +
+                ", name='" + name + '\'' +
+                ", moduleInfoList=" + moduleInfoList +
+                '}';
     }
 }

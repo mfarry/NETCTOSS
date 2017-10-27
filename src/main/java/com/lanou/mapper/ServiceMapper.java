@@ -35,8 +35,8 @@ public interface ServiceMapper {
     int delService(Service service);
 
     List<Service>searchService(
-            @Param("osUsername") String os,
-            @Param("unixHost") String unix,
+            @Param("osUsername") String osUername,
+            @Param("unixHost") String unixHost,
             @Param("idcardNo") String idcardNo,
             @Param("status") String status);
 

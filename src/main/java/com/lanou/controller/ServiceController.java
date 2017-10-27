@@ -174,7 +174,7 @@ public class ServiceController {
             unixHost = null;
         }
         if (idcardNo.equals("")) {
-            idcardNo = null;
+            idcardNo=null;
         }
 
         if (status.equals("")) {
