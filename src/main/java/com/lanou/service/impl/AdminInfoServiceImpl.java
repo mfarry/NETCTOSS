@@ -68,8 +68,8 @@ public class AdminInfoServiceImpl implements AdminInfoService {
         return adminInfoMapper.getAllModule();
     }
 
-    public List<AdminInfo> hlSearchAdmin(@Param("adminId") Integer adminId, @Param("name") Integer name) {
-        return adminInfoMapper.hlSearchAdmin(adminId,name);
+    public List<AdminInfo> hlSearchAdmin(@Param("moduleId") Integer moduleId, @Param("name") String name) {
+        return adminInfoMapper.hlSearchAdmin(moduleId,name);
     }
 
     public PageInfo<AdminInfo>queryCost(Integer pageNo, Integer pageSize){

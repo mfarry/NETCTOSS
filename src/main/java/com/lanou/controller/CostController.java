@@ -5,6 +5,7 @@ import com.lanou.bean.Account;
 import com.lanou.bean.Cost;
 import com.lanou.service.CostService;
 import com.lanou.utils.AjaxResult;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -188,5 +189,25 @@ public class CostController {
     }
 
 
+
+
+    //查询cost信息
+    @ResponseBody
+    @RequestMapping(value = "/findcost", method = RequestMethod.POST)
+    public Cost showcost(@Param("costId") Integer costId) {
+        return costService.selectByPrimaryKey(costId);
+    }
+
+
+    //排序
+    @ResponseBody
+    @RequestMapping(value = "/sort")
+    public PageInfo<Cost> sortByBaseCostAsc(@RequestParam("no") Integer pageNo,
+                                            @RequestParam("size") Integer pageSize,
+                                            @RequestParam("flag") Integer flag) {
+
+        PageInfo<Cost> pageInfo = costService.findCostSort(pageNo, pageSize, flag);
+        return pageInfo;
+    }
 
 }

@@ -167,4 +167,30 @@
    UPDATE cost SET  startime=#{startime,jdbcType=DATE} where cost_id = #{costId,jdbcType=INTEGER}
   </update>
 
+  <!--基费升序-->
+  <select id="findCostAsc" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cost ORDER BY base_cost
+  </select>
+  <!--基费降序-->
+  <select id="findCostDesc" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cost ORDER BY base_cost DESC
+  </select>
+  <!--时长升序查询-->
+  <select id="findDurationAsc" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cost ORDER BY base_duration
+  </select>
+  <!--时长降序查询-->
+  <select id="findDurationDesc" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM cost ORDER by base_duration DESC
+  </select>
+
+
 </mapper>

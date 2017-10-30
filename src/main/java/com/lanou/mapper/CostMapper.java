@@ -25,4 +25,18 @@ int update(Cost cost);
 
 int updateStartTime(Cost cost);
 
+
+
+    //基费升序查询
+    List<Cost> findCostAsc();
+
+    //基费降序查询
+    List<Cost> findCostDesc();
+
+    //时长升序查询
+    List<Cost> findDurationAsc();
+
+    //时长降序查询
+    List<Cost> findDurationDesc();
+
 }

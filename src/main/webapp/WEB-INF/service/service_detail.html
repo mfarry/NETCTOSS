@@ -14,7 +14,6 @@
                 success: function (res) {
 
                     var data = res.data;
-                    alert(data.account.realName)
                     $("#serviceId").val(data.serviceId);
                     $("#accountId").val(data.accountId);
                     $("#realName").val(data.account.realName);

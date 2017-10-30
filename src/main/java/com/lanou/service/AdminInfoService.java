@@ -37,5 +37,5 @@ public interface AdminInfoService {
 
     List<ModuleInfo>getAllModule();
 
-    List<AdminInfo>hlSearchAdmin(@Param("adminId") Integer adminId,@Param("name") Integer name);
+    List<AdminInfo>hlSearchAdmin(@Param("moduleId") Integer moduleId,@Param("name") String name);
 }

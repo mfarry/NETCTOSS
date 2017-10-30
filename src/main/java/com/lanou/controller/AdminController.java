@@ -9,6 +9,7 @@ import com.lanou.service.AdminInfoService;
 import com.lanou.service.RoleService;
 import com.lanou.service.impl.RoleServiceImpl;
 import com.lanou.utils.AjaxResult;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by dllo on 17/10/28.
@@ -175,17 +178,34 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/hlSearchAdmin")
-    public AjaxResult hlSearchAdmin(@RequestParam("adminId") Integer adminId, @RequestParam("name") Integer name) {
-
-        if (adminId.equals("")) {
-            adminId = null;
-        }
+    public AjaxResult hlSearchAdmin(@RequestParam("moduleId") Integer moduleId, @RequestParam("name") String name) {
         if (name.equals("")) {
             name = null;
         }
+        if (moduleId.equals("")) {
+            moduleId = null;
+        }
 
-        List<AdminInfo> infos = adminInfoService.hlSearchAdmin(adminId, name);
+        System.out.println(name);
+        System.out.println(moduleId);
+        List<AdminInfo> infos = adminInfoService.hlSearchAdmin(moduleId, name);
+        System.out.println(infos);
         return new AjaxResult(infos);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/nameChange")
+    public AjaxResult nameChange(String name){
+        System.out.println(name);
+     String reg="/^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,50}$/";
+        Pattern pattern=Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.matches()){
+
+            return new AjaxResult(false);
+        }else {
+            return new AjaxResult(true);
+        }
+
+    }
 }

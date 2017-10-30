@@ -83,4 +83,18 @@ List<RoleInfo>roleInfos;
     public void setEnrolldate(Date enrolldate) {
         this.enrolldate = enrolldate;
     }
+
+
+    @Override
+    public String toString() {
+        return "AdminInfo{" +
+                "adminId=" + adminId +
+                ", adminCode='" + adminCode + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", enrolldate=" + enrolldate +
+                '}';
+    }
 }

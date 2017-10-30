@@ -13,7 +13,6 @@
                     url:"/getAccountDetail",
                     success:function (res) {
                         var data = res.data;
-                        alert(data.accountId)
                         $("#accountId").val(data.accountId)
 
                         $("#realName").val(data.realName)

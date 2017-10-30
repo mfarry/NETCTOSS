@@ -56,7 +56,52 @@ public class CostServiceImpl implements CostService {
 
     }
 
-        public PageInfo<Cost>queryCost(Integer pageNo, Integer pageSize){
+    public List<Cost> findCostAsc() {
+        return costMapper.findCostAsc();
+    }
+
+    public List<Cost> findCostDesc() {
+        return costMapper.findCostDesc();
+    }
+
+    public List<Cost> findDurationAsc() {
+        return costMapper.findDurationAsc();
+    }
+
+    public List<Cost> findDurationDesc() {
+        return costMapper.findDurationDesc();
+    }
+
+    public PageInfo<Cost> findCostSort(Integer pageNo, Integer pageSize, Integer flag) {
+        List<Cost> costs = null;
+        //判断参数合法性
+        pageNo = pageNo == null ? 1 : pageNo;
+        pageSize = pageSize == null ? 5 : pageSize;
+
+        PageHelper.startPage(pageNo, pageSize);
+
+        if (flag == 0){
+            costs = costMapper.findAll();
+        }
+        else if (flag == 1){
+            costs = costMapper.findCostAsc();
+        } else if (flag == 2){
+            costs = costMapper.findCostDesc();
+        }else if (flag == 3){
+            costs = costMapper.findDurationAsc();
+        }else {
+            costs = costMapper.findDurationDesc();
+        }
+
+        PageInfo<Cost> pageInfo = new PageInfo<Cost>(costs);
+
+        return pageInfo;
+    }
+
+
+
+
+    public PageInfo<Cost>queryCost(Integer pageNo, Integer pageSize){
 
 
 

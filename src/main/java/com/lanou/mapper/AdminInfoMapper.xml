@@ -146,10 +146,10 @@
   <select id="hlSearchAdmin" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" /> FROM admin_info
     <where>
-      <if test="moduleId!=null">
+      <if test="moduleId ! = null">
         AND admin_id in (SELECT admin_id FROM admin_role WHERE role_id IN (SELECT role_id FROM role_module WHERE module_id =#{moduleId}))
       </if>
-      <if test="name!=null">
+      <if test="name ! = null">
         and admin_id in (SELECT admin_id FROM admin_role WHERE role_id in(select role_id from role_info where name like CONCAT ('%',#{name},'%')))
       </if>
     </where>

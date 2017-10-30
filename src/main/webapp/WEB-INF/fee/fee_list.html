@@ -111,7 +111,7 @@
                     $.each(data, function (i, domEle) {
                         addNewTr(domEle)
                     })
-                    page(res);
+                    pages(res);
                 }
             });
 
@@ -182,7 +182,7 @@
 
         }
 
-        function page(data) {
+        function pages(data) {
             $("#pages").empty()
             var size = 5
             if (data.isFirstPage) {
@@ -218,7 +218,7 @@
                         addNewTr(domEle)
                     })
 
-                    page(result)
+                    pages(result)
                 }
 
 
@@ -230,6 +230,139 @@
 
 
 
+
+
+        //排序按钮的点击事件
+        function sortByBaseCost(btnObj) {
+            //升序
+            if (btnObj.className == "sort_desc") {
+                btnObj.className = "sort_asc";
+                $.ajax({
+                    url: "/sort",
+                    data: {
+                        no: null,
+                        size: null,
+                        flag:1
+                    },
+                    success: function (result) {
+                        console.log(result)
+                        $(".emp").remove()
+                        $.each(result.list, function (i, domEle) {
+                            addNewTr(domEle)
+                        })
+                        pageinfo(result,1)
+                    }
+                })
+            }
+            //降序
+            else {
+                btnObj.className = "sort_desc";
+                $.ajax({
+                    url: "/sort",
+                    data: {
+                        no: null,
+                        size: null,
+                        flag:2
+                    },
+                    success: function (result) {
+                        console.log(result)
+                        $(".emp").remove()
+                        $.each(result.list, function (i, domEle) {
+                            addNewTr(domEle)
+                        })
+                        pageinfo(result,2)
+                    }
+                })
+            }
+        }
+
+        function sortByBaseDuration(btnObj) {
+            //升序
+            if (btnObj.className == "sort_desc") {
+                btnObj.className = "sort_asc";
+                $.ajax({
+                    url: "/sort",
+                    data: {
+                        no: null,
+                        size: null,
+                        flag:3
+                    },
+                    success: function (result) {
+                        console.log(result)
+                        $(".emp").remove()
+                        $.each(result.list, function (i, domEle) {
+                            addNewTr(domEle)
+                        })
+                        pageinfo(result,3)
+                    }
+                })
+            }
+            //降序
+            else {
+                btnObj.className = "sort_desc";
+                $.ajax({
+                    url: "/sort",
+                    data: {
+                        no: null,
+                        size: null,
+                        flag:4
+                    },
+                    success: function (result) {
+                        console.log(result)
+                        $(".emp").remove()
+                        $.each(result.list, function (i, domEle) {
+                            addNewTr(domEle)
+                        })
+                        pagesinfo(result,4)
+                    }
+                })
+            }
+        }
+
+        //分页
+        function pagesinfo(pageInfo,flag) {
+            $("#pages").empty()
+            var size = 5
+            if (pageInfo.isFirstPage) {
+                $("<a href='#'>上一页</a>").attr("no", 1).attr("flag",flag).attr("size", size).click(page).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>上一页</a>").attr("no", pageInfo.prePage).attr("flag",flag).attr("size", size).click(page).appendTo($("#pages"))
+            }
+
+            for (var i = 0; i < pageInfo.navigatepageNums.length; i++) {
+                var pa = $("<a></a>").html(pageInfo.navigatepageNums[i]).attr("flag",flag).attr("no", pageInfo.navigatepageNums[i]).attr("size", size).click(page).appendTo($("#pages"))
+                if ((i + 1) == pageInfo.pageNum) {
+                    pa.attr("class", "current_page")
+                }
+            }
+            if (pageInfo.isLastPage) {
+                $("<a href='#'>下一页</a>").attr("no", pageInfo.lastPage).attr("flag",flag).attr("size", size).click(page).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>下一页</a>").attr("no", pageInfo.nextPage).attr("flag",flag).attr("size", size).click(page).appendTo($("#pages"))
+            }
+        }
+
+        function page(){
+            var flag = $(this).attr("flag")
+            var pageNo = $(this).attr("no")
+            var pageSize = $(this).attr("size")
+            $.ajax({
+                url: "/sort",
+                data: {
+                    no: pageNo,
+                    size: pageSize,
+                    flag:flag
+                },
+                success: function (result) {
+                    console.log(result)
+                    $(".emp").remove()
+                    $.each(result.list, function (i, domEle) {
+                        addNewTr(domEle)
+                    })
+                    pagesinfo(result,flag)
+                }
+            })
+        }
 
     </script>
 </head>
@@ -263,8 +396,8 @@
     <div class="search_add">
         <div>
             <!--<input type="button" value="月租" class="sort_asc" onclick="sort(this);" />-->
-            <input type="button" value="基费" class="sort_asc" onclick="sort(this)"/>
-            <input type="button" value="时长" class="sort_asc" onclick="sort(this);"/>
+            <input type="button" value="基费" class="sort_asc" onclick="sortByBaseCost(this)"/>
+            <input type="button" value="时长" class="sort_asc" onclick="sortByBaseDuration(this);"/>
         </div>
         <input type="button" value="增加" class="btn_add" onclick="location.href='/fAad';"/>
     </div>

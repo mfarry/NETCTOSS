@@ -16,7 +16,7 @@ function getAllModule() {
             var data = res.data;
         for (var i=0;i<data.length;i++){
             var modName = data[i].name;
-var opt=$("<option>"+modName+"</option>").attr("op",data[i].moduleId)
+var opt=$("<option value='"+data[i].moduleId+"'>"+modName+"</option>")
             $("#selModules").append(opt)
         }
 
@@ -30,11 +30,11 @@ var opt=$("<option>"+modName+"</option>").attr("op",data[i].moduleId)
 
 //高级查询
 function hlSearchAdmin() {
-    var mid = $(this).attr("op");
     $.ajax({
         url:"/hlSearchAdmin",
+        type:"POST",
         data:{
-            moduleId:mid,
+            moduleId:$("#selModules option:selected").val(),
             name:$("#role").val()
         },
         success:function (res) {
@@ -75,8 +75,9 @@ function hlSearchAdmin() {
             var email = $("<td></td>").html(msg.email);
             var enrolldate = $("<td></td>").html(msg.enrolldate);
             var rol = new Array();
-            for (var i = 0; i < msg.roleInfos.length; i++) {
-                var rinfo = msg.roleInfos[i].moduleInfoList;
+            var roleInfo=msg.roleInfos;
+            for (var i = 0; i < roleInfo.length; i++) {
+                var rinfo = roleInfo[i].moduleInfoList;
                 for (var j = 0; j < rinfo.length; j++) {
                     var modName = rinfo[j].name;
 
@@ -242,7 +243,7 @@ function findAdId() {
         <div>
             模块：
             <select id="selModules" class="select_search">
-                <option>全部</option>
+                <option value=" ">全部</option>
                 <!--<option>角色管理</option>-->
                 <!--<option>管理员管理</option>-->
                 <!--<option>资费管理</option>-->
