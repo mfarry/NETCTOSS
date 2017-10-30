@@ -4,8 +4,6 @@
   <resultMap id="BaseResultMap" type="com.lanou.bean.ModuleInfo">
     <id column="module_id" jdbcType="INTEGER" property="moduleId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-
-
   </resultMap>
   <sql id="Base_Column_List">
     module_id, name
@@ -57,4 +55,8 @@
     set name = #{name,jdbcType=VARCHAR}
     where module_id = #{moduleId,jdbcType=INTEGER}
   </update>
+
+  <select id="findModuleInfo" resultMap="BaseResultMap">
+    SELECT * FROM module_info WHERE module_id IN (SELECT module_id FROM role_module WHERE role_id =#{roleId})
+  </select>
 </mapper>

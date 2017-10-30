@@ -7,6 +7,16 @@ public class ModuleInfo {
 
     private RoleInfo roleInfo;
 
+
+    @Override
+    public String toString() {
+        return "ModuleInfo{" +
+                "moduleId=" + moduleId +
+                ", name='" + name + '\'' +
+                ", roleInfo=" + roleInfo +
+                '}';
+    }
+
     public RoleInfo getRoleInfo() {
         return roleInfo;
     }

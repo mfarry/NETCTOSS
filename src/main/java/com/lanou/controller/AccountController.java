@@ -49,7 +49,7 @@ public class AccountController {
         return "/account/account_detail";
     }
 
-
+//显示全部
     @ResponseBody
     @RequestMapping(value = "/queryAll")
     public AjaxResult query() {
@@ -59,6 +59,8 @@ public class AccountController {
         return new AjaxResult(accountList);
     }
 
+
+//    根据id找到全部
     @ResponseBody
     @RequestMapping(value = "/findByIdAccount")
     public AjaxResult findByIdAccount(Integer accountId) {
@@ -71,6 +73,7 @@ public class AccountController {
 
     }
 
+//    删除方法
     @ResponseBody
     @RequestMapping(value = "/deleteAccount")
     public AjaxResult deleteAccount(Account record) {
@@ -81,6 +84,8 @@ public class AccountController {
 
     }
 
+
+//    根据id找到全部并存到session中
     @ResponseBody
     @RequestMapping(value = "/findIdAccount")
     public AjaxResult findIdAccount(HttpServletRequest request, HttpServletResponse response, Integer accountId) {
@@ -92,7 +97,7 @@ public class AccountController {
 
     }
 
-
+//获得session里的数据
     @ResponseBody
     @RequestMapping(value = "/allAccount")
     public AjaxResult allAccount(HttpServletRequest request, HttpServletResponse response) {
@@ -112,15 +117,8 @@ public class AccountController {
         return accountService.getPageinfo(pageNo, pageSize);
     }
 
-//    @ResponseBody
-//    @RequestMapping(value = "/page")
-//    public PageInfo<Account> getpageInfo(@RequestParam("pageNo") Integer pageNo, @RequestParam("pagesize") Integer pageSize,Account account) {
-//
-//
-//        return accountService.pageInfo(pageNo,pageSize,account);
-//    }
 
-
+//添加方法
     @ResponseBody
     @RequestMapping(value = "/addAccount")
     public AjaxResult addAccount(Account record) {
@@ -131,6 +129,7 @@ public class AccountController {
         return new AjaxResult(i);
     }
 
+//    修改方法
     @ResponseBody
     @RequestMapping(value = "/updateAccount")
     public AjaxResult updateAccount(Account record) {
@@ -139,6 +138,7 @@ public class AccountController {
         return new AjaxResult(i);
     }
 
+//    开启状态
     @ResponseBody
     @RequestMapping(value = "/updateFee")
     public AjaxResult updateFee(Account record) {
@@ -147,6 +147,8 @@ public class AccountController {
         return new AjaxResult(i);
     }
 
+
+//    删除暂停
     @ResponseBody
     @RequestMapping(value = "/delPause")
     public AjaxResult delPause(Integer accountId) {
@@ -154,6 +156,7 @@ public class AccountController {
         return new AjaxResult(i);
     }
 
+//    暂停
     @ResponseBody
     @RequestMapping(value = "/pause")
     public AjaxResult updateClo(Account record) {
@@ -162,6 +165,8 @@ public class AccountController {
         return new AjaxResult(i);
     }
 
+
+//    高级查询
     @ResponseBody
     @RequestMapping(value = "/search")
     public AjaxResult search( Account account){
@@ -183,6 +188,8 @@ public class AccountController {
         return new AjaxResult(accountList);
 
     }
+
+
     @ResponseBody
     @RequestMapping(value = "/findAccountId")
     public AjaxResult findAccountId(HttpServletRequest request,HttpServletResponse response,Integer accountId){
@@ -192,6 +199,8 @@ public class AccountController {
 
         return new AjaxResult(account);
     }
+
+//    展示细节
     @ResponseBody
     @RequestMapping(value = "/getAccountDetail")
     public AjaxResult getAccountDetail(HttpServletRequest request,HttpServletResponse response){

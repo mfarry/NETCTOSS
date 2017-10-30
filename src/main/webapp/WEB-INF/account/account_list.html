@@ -8,6 +8,7 @@
     <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css"/>
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
+       <!--搜索全部-->
         function getAll() {
 
             $.ajax({
@@ -18,7 +19,7 @@
                 },
                 success: function (res) {
                     var data = res.list;
-
+//                    遍历
                     $.each(data, function (i, domEle) {
                         addNewTr(domEle)
                     })
@@ -31,6 +32,10 @@
         getAll()
 
 
+
+
+
+//       高级查询
         function searchAccount() {
             $.ajax({
                 url: "/search",
@@ -39,8 +44,7 @@
                     realName: $("#realName").val(),
                     loginName: $("#loginName").val(),
                     status:$("#test option:selected").val()
-//                    pageNo: 1,
-//                    pagesize: 5
+
                 },
                 success: function (res) {
                     $(".emp").remove();
@@ -50,10 +54,12 @@
 
                         addNewTr(datum)
                     }
-//                    page(res);
+
                 }
             })
         }
+
+
         function addNewTr(msg) {
             var accountId = $("<td></td>").html(msg.accountId);
             var realName = $("<td></td>").html(msg.realName).click(findAccountId).attr("name", msg.accountId);
@@ -72,9 +78,6 @@
                 var inp = $("<td></td>").html("<input type='button' value='启用' class='btn_start' />")
             }
 
-
-//
-
             var update = $("<td></td>").html("<input type='button' value='修改' class='btn_modify' />").click(findById).attr("upd", msg.accountId);
             var del = $("<td></td>").html("<input type='button' value='删除' class='btn_delete'/>").click(findId).attr("num", msg.accountId);
             var trob = $("<tr></tr>").attr("class", "emp").append(accountId).append(realName).append(idcardNo).append(loginName).append(status)
@@ -86,7 +89,7 @@
 
         }
 
-
+//根据accountId找到全部
         function findAccountId() {
             var mid = $(this).attr("name");
             $.ajax({
@@ -101,6 +104,8 @@
             })
         }
 
+
+//        暂停
         function closeFee() {
             var mid = $(this).attr("clo");
 
@@ -118,7 +123,7 @@
             })
         }
 
-
+//开启
         function strFee() {
             var mid = $(this).attr("str");
             $.ajax({
@@ -135,7 +140,7 @@
             })
         }
 
-
+//删除暂停时间
         function delPause(mid) {
 
             $.ajax({
@@ -150,6 +155,7 @@
             })
         }
 
+//        根据id找到account表全部,根据状态判断是否执行删除
         function findId() {
             var mid = $(this).attr("num");
 
@@ -172,6 +178,8 @@
 
         }
 
+
+//        根据状态判断是否执行修改
         function findById() {
             var mid = $(this).attr("upd");
 
@@ -196,7 +204,7 @@
         }
 
 
-        //删除
+        //删除方法
         function deleteAccount(id) {
             var closeDate = new Date();
 //                var r = window.confirm("确定要删除此账务账号吗？\r\n删除后将不能恢复，且会删除其下属的所有业务账号。");
@@ -285,7 +293,7 @@
     <ul id="menu">
         <li><a href="../index.html" class="index_off"></a></li>
         <li><a href="/rList" class="role_off"></a></li>
-        <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+        <li><a href="/AdmList" class="admin_off"></a></li>
         <li><a href="/fList" class="fee_off"></a></li>
         <li><a href="/account" class="account_on"></a></li>
         <li><a href="/sList" class="service_off"></a></li>

@@ -132,6 +132,7 @@ public class CostController {
         return new AjaxResult(i);
     }
 
+//    加入启用时间
     @ResponseBody
     @RequestMapping(value = "/insertStartTime")
     public AjaxResult insertStartTime(Cost cost) {
@@ -141,6 +142,8 @@ public class CostController {
 
     }
 
+
+//    根据id找到全部,根据状态判断是否删除
     @ResponseBody
     @RequestMapping(value = "/findId")
     public AjaxResult findId(Integer costId) {
@@ -148,6 +151,7 @@ public class CostController {
         return new AjaxResult(cost);
     }
 
+//    根据id找到全部并存入session
     @ResponseBody
     @RequestMapping(value = "/findAllById")
     public AjaxResult findAllById(HttpServletRequest request, Integer costId){
@@ -159,6 +163,8 @@ public class CostController {
         return new AjaxResult(cost);
     }
 
+
+//    根据id请求session,显示细节
     @ResponseBody
     @RequestMapping(value = "/getId")
     public AjaxResult getId(HttpServletRequest request, HttpServletResponse response){

@@ -172,6 +172,7 @@ function serviceDetailById() {
 
         }
 
+//        开启暂停时间
         function strServiceFee() {
 
             var mid = $(this).attr("str");
@@ -190,7 +191,7 @@ function serviceDetailById() {
             })
         }
 
-
+//删除暂停时间
         function delServicePause(mid) {
 
             $.ajax({
@@ -205,7 +206,7 @@ function serviceDetailById() {
             })
         }
 
-
+//暂停状态
         function closeServiceFee() {
             var mid = $(this).attr("clo");
             var pauseDate = new Date();
@@ -225,7 +226,7 @@ function serviceDetailById() {
 
 
 
-
+//高级查询
         function searchService() {
             $.ajax({
                 url: "/searchService",
@@ -282,7 +283,7 @@ function serviceDetailById() {
     <ul id="menu">
         <li><a href="../index.html" class="index_off"></a></li>
         <li><a href="/rList" class="role_off"></a></li>
-        <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+        <li><a href="/AdmList" class="admin_off"></a></li>
         <li><a href="/fList" class="fee_off"></a></li>
         <li><a href="/account" class="account_off"></a></li>
         <li><a href="/sList" class="service_on"></a></li>

@@ -8,9 +8,10 @@
     <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css"/>
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
+
         function searchAccount() {
 
-            alert($("#idcard").val())
+
             $.ajax({
                 url: "/searchAccount",
                 data: {
@@ -30,7 +31,7 @@
             $.ajax({
                 url: "/getService",
                 success: function (res) {
-                    alert(1)
+
                     var data = res.data;
                     addService(data)
                 }
@@ -104,7 +105,7 @@
     <ul id="menu">
         <li><a href="../index.html" class="index_off"></a></li>
         <li><a href="/rList" class="role_off"></a></li>
-        <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+        <li><a href="/AdmList" class="admin_off"></a></li>
         <li><a href="/fList" class="fee_off"></a></li>
         <li><a href="/account" class="account_off"></a></li>
         <li><a href="/sList" class="service_on"></a></li>

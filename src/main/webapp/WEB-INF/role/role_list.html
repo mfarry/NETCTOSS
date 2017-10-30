@@ -8,49 +8,146 @@
     <link type="text/css" rel="stylesheet" media="all" href="../styles/global_color.css"/>
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
+        <!--获得全部角色-->
         function queryAllRole() {
             $.ajax({
-                url: "/queryAllRole",
+                url: "/rolepage",
+                data: {
+                    pageNo: 1,
+                    pagesize: 5
+                },
                 success: function (res) {
-                    var data = res.data;
-                    for (var i = 0; i < data.length; i++) {
-                        var msg = data[i];
+                    var data = res.list;
+                    $.each(data, function (i, domEle) {
+                        addNewTr(domEle)
+                    });
+                    page(res);
 
-                        addNewTr(msg)
-
-                    }
                 }
+
             })
         }
-
-
         queryAllRole()
+
+
+        function page(data) {
+            $("#pages").empty()
+            var size = 5
+            if (data.isFirstPage) {
+                $("<a href='#'>上一页</a>").attr("no", 1).attr("size", size).click(pageNo).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>上一页</a>").attr("no", data.prePage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+
+            for (var i = 1; i <= data.pages; i++) {
+                $("<a href='#'>" + i + "</a>").attr("no", i).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+            if (data.isLastPage) {
+                $("<a href='#'>下一页</a>").attr("no", data.lastPage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            } else {
+                $("<a href='#'>下一页</a>").attr("no", data.nextPage).attr("size", size).click(pageNo).appendTo($("#pages"))
+            }
+
+
+        }
+        function pageNo() {
+            var pageNo = $(this).attr("no")
+            var pageSize = $(this).attr("size")
+            $.ajax({
+                url: "/rolepage",
+                data: {
+                    pageNo: pageNo,
+                    pagesize: pageSize
+                },
+                success: function (result) {
+                    console.log(result)
+                    $(".emp").remove()
+                    $.each(result.list, function (i, domEle) {
+                        addNewTr(domEle)
+                    })
+
+                    page(result)
+                }
+
+
+            })
+
+
+        }
+
 
         function addNewTr(res) {
 
             var roleId = $("<td></td>").html(res.roleId);
             var name = $("<td></td>").html(res.name);
-for(var i=0;i<res.moduleInfoList.length;i++){
-    var list=res.moduleInfoList[i].name
-    alert(res.moduleInfoList[i].name)
-    var moduleName = $("<td>").html(list);
-}
+            var arr = new Array();
+            for (var i = 0; i < res.moduleInfoList.length; i++) {
+                var list = res.moduleInfoList[i].name
+
+                arr.push(" " + list + " ");
 
 
+            }
+            var moduleName = $("<td></td>").html(arr);
 
 
-            var update = $("<td></td>").html("<input type='button' value='修改' class='btn_modify' />");
-            var del = $("<td></td>").html("<input type='button' value='删除' class='btn_delete'/>");
+            var update = $("<td></td>").html("<input type='button' value='修改' class='btn_modify' />").click(getAllRole).attr("cr", res.roleId);
+            var del = $("<td></td>").html("<input type='button' value='删除' class='btn_delete'/>").click(deleteRole).attr("del", res.roleId);
 
-            var trob = $("<tr></tr>").append(roleId).append(name).append(moduleName).append(update).append(del);
+            var trob = $("<tr></tr>").attr("class", "emp").append(roleId).append(name).append(moduleName).append(update).append(del);
 
             $("#datalist").append(trob)
         }
 
 
+//        根据id找role_info所有的数据
+        function getAllRole() {
+            var rid = $(this).attr("cr");
+            $.ajax({
+                url: "/getAllRole",
+                data: {
+                    roleId: rid
+                },
+                success: function (res) {
+                    window.location.href="/rMod"
+                }
+            })
+        }
+
+
+
+//删除role_info
         function deleteRole() {
-            var r = window.confirm("确定要删除此角色吗？");
-            document.getElementById("operate_result_info").style.display = "block";
+//            var r = window.confirm("确定要删除此角色吗？");
+//            document.getElementById("operate_result_info").style.display = "block";
+            var mid = $(this).attr("del");
+            $.ajax({
+                url: "/deleteRole",
+                data: {
+                    roleId: mid
+                },
+
+                success: function (res) {
+                    deleteMid(mid)
+
+                }
+
+            })
+
+
+        }
+
+//        删除中间表
+        function deleteMid(res) {
+            $.ajax({
+                url: "/deleteMid",
+                data: {
+                    roleId: res
+                },
+                success: function (result) {
+                    window.location.href = "/rList";
+                }
+            })
         }
     </script>
 </head>
@@ -66,7 +163,7 @@ for(var i=0;i<res.moduleInfoList.length;i++){
     <ul id="menu">
         <li><a href="../index.html" class="index_off"></a></li>
         <li><a href="/rList" class="role_on"></a></li>
-        <li><a href="../admin/admin_list.html" class="admin_off"></a></li>
+        <li><a href="/AdmList" class="admin_off"></a></li>
         <li><a href="/fList" class="fee_off"></a></li>
         <li><a href="/account" class="account_off"></a></li>
         <li><a href="/sList" class="service_off"></a></li>
@@ -82,7 +179,7 @@ for(var i=0;i<res.moduleInfoList.length;i++){
 
     <!--查询-->
     <div class="search_add">
-        <input type="button" value="增加" class="btn_add" onclick="location.href='role_add.html';"/>
+        <input type="button" value="增加" class="btn_add" onclick="location.href='/rAdd';"/>
     </div>
     <!--删除的操作提示-->
     <div id="operate_result_info" class="operate_success">

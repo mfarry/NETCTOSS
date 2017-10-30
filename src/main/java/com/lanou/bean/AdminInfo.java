@@ -1,6 +1,7 @@
 package com.lanou.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class AdminInfo {
     private Integer adminId;
@@ -17,8 +18,15 @@ public class AdminInfo {
 
     private Date enrolldate;
 
+List<RoleInfo>roleInfos;
 
+    public List<RoleInfo> getRoleInfos() {
+        return roleInfos;
+    }
 
+    public void setRoleInfos(List<RoleInfo> roleInfos) {
+        this.roleInfos = roleInfos;
+    }
 
     public Integer getAdminId() {
         return adminId;

@@ -7,7 +7,17 @@ public class RoleInfo {
 
     private String name;
 
+
+    private AdminInfo adminInfo;
     List<ModuleInfo>moduleInfoList;
+
+    public AdminInfo getAdminInfo() {
+        return adminInfo;
+    }
+
+    public void setAdminInfo(AdminInfo adminInfo) {
+        this.adminInfo = adminInfo;
+    }
 
     public List<ModuleInfo> getModuleInfoList() {
         return moduleInfoList;

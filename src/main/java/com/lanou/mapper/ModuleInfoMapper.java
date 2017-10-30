@@ -2,6 +2,8 @@ package com.lanou.mapper;
 
 import com.lanou.bean.ModuleInfo;
 
+import java.util.List;
+
 public interface ModuleInfoMapper {
     int deleteByPrimaryKey(Integer moduleId);
 
@@ -14,4 +16,6 @@ public interface ModuleInfoMapper {
     int updateByPrimaryKeySelective(ModuleInfo record);
 
     int updateByPrimaryKey(ModuleInfo record);
+
+    List<ModuleInfo>findModuleInfo(Integer roleId);
 }
