@@ -32,7 +32,7 @@
             }
 
 
-            if(name && baseDuration &&baseCost && unitCost && des!="") {
+            if(name!="" && baseDuration!="" &&baseCost!="" && unitCost!="" && des!="") {
             $.ajax({
                 url: "/insertCost",
                 method: "POST",

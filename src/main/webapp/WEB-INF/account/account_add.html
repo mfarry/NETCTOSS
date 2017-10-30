@@ -9,7 +9,27 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
 function insertAccount() {
-    alert($("#realName").val());
+    var realName=$("#realName").val();
+    var idcardno=$("#idcardno").val();
+    var name=$("#name").val();
+    var loginPasswd=$("#loginPasswd").val();
+    var telephone=$("#telephone").val();
+   if (realName==""){
+       $("#showFalse").html("不能为空")
+   }
+   if (idcardno==""){
+       $("#idc").html("不能为空")
+   }
+   if (name==""){
+       $("#lgName").html("不能为空")
+   }
+   if (loginPasswd==""){
+       $("#pas").html("不能为空")
+   }
+   if (telephone==""){
+       $("#tel").html("不能为空")
+   }
+if (realName!=""&&idcardno!=""&&name!=""&&loginPasswd!=""&&telephone!=""){
     $.ajax({
         url: "/addAccount",
         data: {
@@ -32,14 +52,126 @@ function insertAccount() {
     })
 
 }
+}
+function nameChange() {
+    var reg = /^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,20}$/;
+    var name = $("#realName").val()
+    if (reg.test(name)) {
+        $("#showFalse").html("")
+    } else {
+        $("#showFalse").html("20长度的字母、数字、汉字和下划线的组合")
+    }
+}
+
+function icard() {
+   var reg= /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+   var idc= $("#recommenderId").val()
+    if (reg.test(idc)){
+       $("#idc").html("")
+    }else {
+        $("#idc").html("正确的身份证号码格式")
+    }
+}
 
 
+function icd() {
+    var reg= /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var idcard= $("#idcardno").val()
+    if (reg.test(idcard)){
+        $("#idno").html("")
+    }else {
+        $("#idno").html("正确的身份证号码格式")
+    }
+}
+function logc() {
+var reg=/^[a-zA-Z0-9_]{1,30}$/;
+    var val = $("#name").val();
+    if (reg.test(val)){
+        $("#lgName").html("")
+    }else {
+        $("#lgName").html("30长度以内的字母、数字和下划线的组合")
+    }
+}
 
 
+function pasc() {
+    var reg=/^[a-zA-Z0-9_]{1,30}$/;
+    var val = $("#loginPasswd1").val();
+    if (reg.test(val)){
+        $("#pas").html("")
+    }else {
+        $("#pas").html("30长度以内的字母、数字和下划线的组合")
+    }
+}
 
 
+function paswc() {
+    var psw = $("#loginPasswd1").val();
+    var pswd = $("#loginPasswd").val();
+    if (psw!=pswd){
+        $("#pasw").html("两次密码必须相同")
+    }else {
+        $("#pasw").html("")
+    }
+
+}
 
 
+function telc() {
+    var telNo =$("#telephone").val();
+    var integer1 = /^(0|86|17951)?(13[0-9]|15[012356789]|17[01678]|18[0-9]|14[57])[0-9]{8}$/;
+    var integer2 = /^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;
+
+    if(!integer1.test(telNo)&&!integer2.test(telNo)) {
+        $("#tel").html("请输入正确的电话号码格式：手机或固话")
+
+    }else {
+        $("#tel").html("")
+    }
+
+}
+
+function ema() {
+    var reg = /\w+[@]{1}\w+[.]\w+/;
+    var eml=$("#email").val()
+    if (reg.test(eml)){
+        $("#em").html("")
+    }else {
+        $("#em").html("50长度以内，合法的 Email 格式")
+    }
+}
+
+function addr() {
+    var reg = /^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,50}$/;
+    var addres=$("#mailaddress").val()
+    if (reg.test(addres)){
+        $("#adr").html("")
+    }else {
+        $("#adr").html("50长度以内")
+    }
+}
+
+
+function zpc() {
+    var reg= /^[1-9][0-9]{5}$/;
+    var zpcd=$("#zipcode").val()
+    if (reg.test(zpcd)){
+        $("#zcd").html("")
+    }else {
+        $("#zcd").html("6位数字")
+    }
+
+}
+
+function qqc() {
+    var reg=/^[1-9][0-9]{4,9}$/;
+    var q=$("#qq").val()
+    if (reg.test(q)){
+        $("#qc").html("")
+    }else {
+        $("#qc").html("请输入正确的qq")
+    }
+}
         //保存成功的提示信息
         function showResult() {
             showResultDiv(true);
@@ -98,39 +230,39 @@ function insertAccount() {
         <!--必填项-->
         <div class="text_info clearfix"><span>姓名：</span></div>
         <div class="input_info">
-            <input type="text" id="realName"/>
+            <input type="text" id="realName" onchange="nameChange()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">20长度以内的汉字、字母和数字的组合</div>
+            <div class="validate_msg_long" id="showFalse"></div>
         </div>
         <div class="text_info clearfix"><span>身份证：</span></div>
         <div class="input_info">
-            <input type="text" id="idcardno"/>
+            <input type="text" id="idcardno" onchange="icard()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">正确的身份证号码格式</div>
+            <div class="validate_msg_long" id="idc"></div>
         </div>
         <div class="text_info clearfix"><span>登录账号：</span></div>
         <div class="input_info">
-            <input type="text" id="name"/>
+            <input type="text" id="name" onchange="logc()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+            <div class="validate_msg_long" id="lgName"></div>
         </div>
         <div class="text_info clearfix"><span>密码：</span></div>
         <div class="input_info">
-            <input type="password" id="loginPasswd1"/>
+            <input type="password" id="loginPasswd1" onchange="pasc()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+            <div class="validate_msg_long" id="pas"></div>
         </div>
         <div class="text_info clearfix"><span>重复密码：</span></div>
         <div class="input_info">
-            <input type="password" id="loginPasswd"/>
+            <input type="password" id="loginPasswd" onchange="paswc()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">两次密码必须相同</div>
+            <div class="validate_msg_long" id="pasw"></div>
         </div>
         <div class="text_info clearfix"><span>电话：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" id="telephone"/>
+            <input type="text" class="width200" id="telephone" onclick="telc()"/>
             <span class="required">*</span>
-            <div class="validate_msg_medium">正确的电话号码格式：手机或固话</div>
+            <div class="validate_msg_medium" id="tel"></div>
         </div>
         <!--可选项-->
         <div class="text_info clearfix"><span>可选项：</span></div>
@@ -140,8 +272,8 @@ function insertAccount() {
         <div id="optionalInfo" class="hide">
             <div class="text_info clearfix"><span>推荐人身份证号码：</span></div>
             <div class="input_info">
-                <input type="text" id="reenderId"/>
-                <div class="validate_msg_long">正确的身份证号码格式</div>
+                <input type="text" id="reenderId" onchange="icd()"/>
+                <div class="validate_msg_long" id="idno"></div>
             </div>
             <div class="text_info clearfix"><span>生日：</span></div>
             <div class="input_info">
@@ -149,8 +281,8 @@ function insertAccount() {
             </div>
             <div class="text_info clearfix"><span>Email：</span></div>
             <div class="input_info">
-                <input type="text" class="width350" id="email"/>
-                <div class="validate_msg_tiny">50长度以内，合法的 Email 格式</div>
+                <input type="text" class="width350" id="email" onchange="ema()"/>
+                <div class="validate_msg_tiny" id="em"></div>
             </div>
             <div class="text_info clearfix"><span>职业：</span></div>
             <div class="input_info" id="occupation">
@@ -170,18 +302,18 @@ function insertAccount() {
             </div>
             <div class="text_info clearfix"><span>通信地址：</span></div>
             <div class="input_info">
-                <input type="text" class="width350" id="mailaddress"/>
-                <div class="validate_msg_tiny">50长度以内</div>
+                <input type="text" class="width350" id="mailaddress" onchange="addr()"/>
+                <div class="validate_msg_tiny" id="adr"></div>
             </div>
             <div class="text_info clearfix"><span>邮编：</span></div>
             <div class="input_info">
-                <input type="text" id="zipcode"/>
-                <div class="validate_msg_long">6位数字</div>
+                <input type="text" id="zipcode" onchange="zpc()"/>
+                <div class="validate_msg_long" id="zcd">6位数字</div>
             </div>
             <div class="text_info clearfix"><span>QQ：</span></div>
             <div class="input_info">
-                <input type="text" id="qq"/>
-                <div class="validate_msg_long">5到13位数字</div>
+                <input type="text" id="qq" onchange="qqc()"/>
+                <div class="validate_msg_long" id="qc"></div>
             </div>
         </div>
         <!--操作按钮-->

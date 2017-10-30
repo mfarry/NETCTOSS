@@ -46,7 +46,7 @@
                 if (descr == "") {
                     $("#desc").html("不能为空")
                 }
-                if (name && baseDuration && baseCost && unitCost && descr != null) {
+                if (name!="" && baseDuration!="" &&baseCost!="" && unitCost!="" && descr!="") {
                     $.ajax({
                         url: "/update",
                         type: "POST",
