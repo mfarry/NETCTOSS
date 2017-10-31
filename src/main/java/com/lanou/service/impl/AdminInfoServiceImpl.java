@@ -69,6 +69,7 @@ public class AdminInfoServiceImpl implements AdminInfoService {
     }
 
     public List<AdminInfo> hlSearchAdmin(@Param("moduleId") Integer moduleId, @Param("name") String name) {
+        System.out.println(name);
         return adminInfoMapper.hlSearchAdmin(moduleId,name);
     }
 

@@ -41,4 +41,5 @@ public interface ServiceMapper {
             @Param("status") String status);
 
 
+    Service findOs(String loginName);
 }

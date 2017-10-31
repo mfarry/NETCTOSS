@@ -9,6 +9,41 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
         function addAdmin() {
+
+            var name=$("#name").val()
+            var adminCode=$("#adminCode").val()
+            var password=$("#password").val()
+            var telephone=$("#telephone").val()
+            var email=$("#email").val()
+
+
+            if (name==""){
+                $("#nameShow").html("")
+            }
+            if (adminCode==""){
+
+            }
+            if (password==""){
+
+            }
+            if (telephone==""){
+
+            }
+            if (email==""){
+
+            }
+
+            var mle = "";
+
+            $("input[type='checkbox']:checked").each(function () {
+                mle += $(this).val() + ","
+            })
+            if (mle=""){
+                $("#choseOne").html("至少选择一个")
+            }
+
+if ()
+
             var giveDate = new Date();
             $.ajax({
                 url: "/addAdmin",
@@ -25,7 +60,6 @@
                 }
             })
         }
-
 
 
         function searchAdminNameById() {
@@ -52,7 +86,7 @@
                 mle += $(this).val() + ","
             })
 
-            alert(mle)
+
             $.ajax({
                 url: "/addAdminMid",
                 data: {
@@ -60,12 +94,11 @@
                     roleId: mle
                 },
                 success: function (result) {
-                    window.location.href="/AdmList"
+                    window.location.href = "/AdmList"
                 }
 
             })
         }
-
 
 
         function getAllRoleId() {
@@ -84,7 +117,6 @@
         getAllRoleId()
 
 
-
         //保存成功的提示消息
         function showResult() {
             showResultDiv(true);
@@ -97,6 +129,65 @@
             else
                 divResult.style.display = "none";
         }
+
+
+        function nameChange() {
+            var reg = /[\u4e00-\u9fa50-9A-Za-z]{0,20}/;
+            var realName = $("#name").val()
+            if (reg.test(realName)) {
+                $("#nameShow").html("")
+            } else {
+                $("#nameShow").html("20长度以内的汉字、字母、数字的组合")
+            }
+        }
+
+
+        function pswChange() {
+            var reg = /^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,30}$/;
+            var psw = $("#password").val()
+            if (reg.test(psw)) {
+                $("#psw").html("")
+            } else {
+                $("#psw").html("30长度以内的字母、数字和下划线的组合")
+            }
+        }
+
+
+        function pswSame() {
+            var psw = $("#password").val()
+            var paswd=$("#pswd").val()
+
+            if (psw==paswd){
+                $("#pswsm").html("两次密码必须相同")
+            }else {
+                $("#pswsm").html("")
+            }
+        }
+
+        function telChange() {
+            var telNo = $("#telephone").val();
+            var integer1 = /^(0|86|17951)?(13[0-9]|15[012356789]|17[01678]|18[0-9]|14[57])[0-9]{8}$/;
+            var integer2 = /^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;
+
+            if (!integer1.test(telNo) && !integer2.test(telNo)) {
+                $("#tel").html("请输入正确的电话号码格式：手机或固话")
+
+            } else {
+                $("#tel").html("")
+            }
+
+        }
+
+        function ema() {
+            var reg = /\w+[@]{1}\w+[.]\w+/;
+            var eml = $("#email").val()
+            if (reg.test(eml)) {
+                $("#em").html("")
+            } else {
+                $("#em").html("50长度以内，合法的 Email 格式")
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -128,55 +219,49 @@
     <form action="" method="" class="main_form">
         <div class="text_info clearfix"><span>姓名：</span></div>
         <div class="input_info">
-            <input type="text" id="name"/>
+            <input type="text" id="name" onchange="nameChange()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">20长度以内的汉字、字母、数字的组合</div>
+            <div class="validate_msg_long" id="nameShow"></div>
         </div>
         <div class="text_info clearfix"><span>管理员账号：</span></div>
         <div class="input_info">
             <input type="text" id="adminCode"/>
             <span class="required">*</span>
-            <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+            <div class="validate_msg_long"></div>
         </div>
         <div class="text_info clearfix"><span>密码：</span></div>
         <div class="input_info">
-            <input type="password" id="password"/>
+            <input type="password" id="password" onchange="pswChange()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long error_msg">30长度以内的字母、数字和下划线的组合</div>
+            <div class="validate_msg_long error_msg" id="psw"></div>
         </div>
         <div class="text_info clearfix"><span>重复密码：</span></div>
         <div class="input_info">
-            <input type="password"/>
+            <input type="password" id="pswd" onchange="pswSame()"/>
             <span class="required">*</span>
-            <div class="validate_msg_long error_msg">两次密码必须相同</div>
+            <div class="validate_msg_long error_msg" id="pswsm"></div>
         </div>
         <div class="text_info clearfix"><span>电话：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" id="telephone"/>
+            <input type="text" class="width200" id="telephone" onchange="telChange()"/>
             <span class="required">*</span>
-            <div class="validate_msg_medium error_msg">正确的电话号码格式：手机或固话</div>
+            <div class="validate_msg_medium error_msg" id="tel"></div>
         </div>
         <div class="text_info clearfix"><span>Email：</span></div>
         <div class="input_info">
-            <input type="text" class="width200" id="email"/>
+            <input type="text" class="width200" id="email" onchange="ema()"/>
             <span class="required">*</span>
-            <div class="validate_msg_medium error_msg">50长度以内，正确的 email 格式</div>
+            <div class="validate_msg_medium error_msg" id="em"></div>
         </div>
         <div class="text_info clearfix"><span>角色：</span></div>
         <div class="input_info_high">
-            <div class="input_info_scroll" >
+            <div class="input_info_scroll">
                 <ul id="chose">
-                    <!--<li><input type="checkbox" value="2"/>超级管理员</li>-->
-                    <!--<li><input type="checkbox" value="4"/>账务账号管理员</li>-->
-                    <!--<li><input type="checkbox" value="5"/>业务账号管理员</li>-->
-                    <!--<li><input type="checkbox" value="1"/>角色管理员</li>-->
-                    <!--<li><input type="checkbox" value="3"/>资费管理员</li>-->
-                    <!--<li><input type="checkbox" value="6"/>账单管理员</li>-->
-                    <!--<li><input type="checkbox" value="7"/>报表管理员</li>-->
+
                 </ul>
             </div>
             <span class="required">*</span>
-            <div class="validate_msg_tiny error_msg">至少选择一个</div>
+            <div class="validate_msg_tiny error_msg" id="choseOne"></div>
         </div>
         <div class="button_info clearfix">
             <input type="button" value="保存" class="btn_save" onclick="addAdmin()"/>

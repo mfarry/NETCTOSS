@@ -9,6 +9,66 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
 
+        function findOs() {
+            $.ajax({
+                url: "/findOs",
+                data: {
+                    loginName: $("#loginName").val()
+                },
+                success: function (res) {
+                    var data = res.data;
+                    if (data == null) {
+                        $("#lg").html("没有此账号，请重新录入。")
+                    } else {
+                        $("#lg").html("")
+                    }
+                }
+            })
+        }
+
+        function ipc() {
+            var reg = /\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b/;
+            var ip = $("#unixHost").val();
+            if (reg.test(ip)) {
+                $("#ipChange").html("")
+            } else {
+                $("#ipChange").html("15 长度，符合IP的地址规范")
+            }
+        }
+
+        function osChange() {
+            var reg = /^[a-zA-Z0-9_]{1,8}$/;
+            var osName = $("#osUsername").val()
+            if (reg.test(osName)) {
+                $("#osN").html("")
+            } else {
+                $("#osN").html("8长度以内的字母、数字和下划线的组合")
+            }
+        }
+
+
+        function pasC() {
+            var reg = /^[a-zA-Z0-9_]{1,30}$/;
+            var val = $("#loginPasswd").val();
+            if (reg.test(val)) {
+                $("#pas").html("")
+            } else {
+                $("#pas").html("30长度以内的字母、数字和下划线的组合")
+            }
+        }
+
+
+        function checkPas() {
+            var paswd1 = $("#loginPasswd").val();
+            var paswd2 = $("#loginPasswd1").val();
+            if (paswd1 == paswd2) {
+                $("#pasw").html("")
+            } else {
+                $("#pasw").html("两次密码必须相同")
+            }
+
+        }
+
         function searchAccount() {
 
 
@@ -20,7 +80,12 @@
                 },
                 success: function (res) {
                     var data = res.data;
-                    $("#loginName").val(data.loginName)
+                    if (data == null) {
+                        $("#sear").html("没有此身份证号，请重新录入。")
+                    } else {
+                        $("#loginName").val(data.loginName)
+                    }
+
                 }
 
             })
@@ -66,10 +131,10 @@
                     loginPasswd: $("#loginPasswd").val(),
                     status: 1,
                     createDate: createDate,
-                    costId:$("#costType option:selected").val()
+                    costId: $("#costType option:selected").val()
                 },
-                success:function (res) {
-                    window.location.href="/sList";
+                success: function (res) {
+                    window.location.href = "/sList";
                 }
             })
         }
@@ -127,13 +192,13 @@
         <input type="text" id="idcard" class="width180"/>
         <input type="button" value="查询账务账号" onclick="searchAccount()" class="btn_search_large"/>
         <span class="required">*</span>
-        <div class="validate_msg_short">没有此身份证号，请重新录入。</div>
+        <div class="validate_msg_short" id="sear"></div>
     </div>
     <div class="text_info clearfix"><span>账务账号：</span></div>
     <div class="input_info">
-        <input type="text" id="loginName" onkeyup="searchAccounts(this);"/>
+        <input type="text" id="loginName" onchange="findOs()" onkeyup="searchAccounts(this);"/>
         <span class="required">*</span>
-        <div class="validate_msg_long">没有此账务账号，请重新录入。</div>
+        <div class="validate_msg_long" id="lg"></div>
     </div>
     <div class="text_info clearfix"><span>资费类型：</span></div>
     <div class="input_info">
@@ -146,27 +211,27 @@
     </div>
     <div class="text_info clearfix"><span>服务器 IP：</span></div>
     <div class="input_info">
-        <input type="text" id="unixHost"/>
+        <input type="text" id="unixHost" onchange="ipc()"/>
         <span class="required">*</span>
-        <div class="validate_msg_long">15 长度，符合IP的地址规范</div>
+        <div class="validate_msg_long" id="ipChange"></div>
     </div>
     <div class="text_info clearfix"><span>登录 OS 账号：</span></div>
     <div class="input_info">
-        <input type="text" id="osUsername"/>
+        <input type="text" id="osUsername" onchange="osChange()"/>
         <span class="required">*</span>
-        <div class="validate_msg_long">8长度以内的字母、数字和下划线的组合</div>
+        <div class="validate_msg_long" id="osN"></div>
     </div>
     <div class="text_info clearfix"><span>密码：</span></div>
     <div class="input_info">
-        <input type="password" id="loginPasswd"/>
+        <input type="password" id="loginPasswd" onchange="pasC()"/>
         <span class="required">*</span>
-        <div class="validate_msg_long">30长度以内的字母、数字和下划线的组合</div>
+        <div class="validate_msg_long" id="pas"></div>
     </div>
     <div class="text_info clearfix"><span>重复密码：</span></div>
     <div class="input_info">
-        <input type="password"/>
+        <input type="password" id="loginPasswd1" onchange="checkPas()"/>
         <span class="required">*</span>
-        <div class="validate_msg_long">两次密码必须相同</div>
+        <div class="validate_msg_long" id="pasw"></div>
     </div>
     <!--操作按钮-->
     <div class="button_info clearfix">

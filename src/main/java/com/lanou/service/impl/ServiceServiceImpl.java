@@ -69,6 +69,11 @@ public class ServiceServiceImpl implements ServiceService {
         return services;
     }
 
+    public Service findOs(String loginName) {
+        return serviceMapper.findOs(loginName
+        );
+    }
+
 
     public PageInfo<Service>queryCost(Integer pageNo, Integer pageSize){
 

@@ -214,4 +214,10 @@ public class ServiceController {
         return new AjaxResult(service);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/findOs")
+    public AjaxResult findOs(String loginName){
+        Service os = serviceService.findOs(loginName);
+        return new AjaxResult(os);
+    }
 }

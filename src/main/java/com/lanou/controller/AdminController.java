@@ -92,7 +92,8 @@ public class AdminController {
         int i = adminInfoService.insert(record);
         return new AjaxResult(i);
     }
-//
+
+    //
     @ResponseBody
     @RequestMapping(value = "/searchAdminNameById")
     public AjaxResult searchAdminNameById(AdminInfo record) {
@@ -182,7 +183,7 @@ public class AdminController {
         if (name.equals("")) {
             name = null;
         }
-        if (moduleId.equals("")) {
+        if (moduleId == null || moduleId.equals("")) {
             moduleId = null;
         }
 
@@ -195,15 +196,15 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/nameChange")
-    public AjaxResult nameChange(String name){
+    public AjaxResult nameChange(String name) {
         System.out.println(name);
-     String reg="/^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,50}$/";
-        Pattern pattern=Pattern.compile(reg);
+        String reg = "/^[a-zA-Z\\d\\_\\u2E80-\\u9FFF]{0,50}$/";
+        Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(name);
-        if (matcher.matches()){
+        if (matcher.matches()) {
 
             return new AjaxResult(false);
-        }else {
+        } else {
             return new AjaxResult(true);
         }
 

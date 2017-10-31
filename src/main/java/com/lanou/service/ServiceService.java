@@ -34,4 +34,7 @@ public interface ServiceService {
           @Param("unixHost")  String unixHost,
           @Param("idcardNo")  String idcardNo,
           @Param("status")  String status);
+
+
+    Service findOs(String loginName);
 }

@@ -10,7 +10,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="enrolldate" jdbcType="TIMESTAMP" property="enrolldate" />
 
-    <collection property="roleInfos" javaType="ArrayList" column="admin_id" select="com.lanou.mapper.RoleInfoMapper.findRoleInfo"/>
+    <collection property="roleInfos" column="admin_id" select="com.lanou.mapper.RoleInfoMapper.findRoleInfo"/>
   </resultMap>
   <sql id="Base_Column_List">
     admin_id, admin_code, password, name, telephone, email, enrolldate
@@ -146,11 +146,11 @@
   <select id="hlSearchAdmin" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" /> FROM admin_info
     <where>
-      <if test="moduleId ! = null">
+      <if test="moduleId!=null">
         AND admin_id in (SELECT admin_id FROM admin_role WHERE role_id IN (SELECT role_id FROM role_module WHERE module_id =#{moduleId}))
       </if>
-      <if test="name ! = null">
-        and admin_id in (SELECT admin_id FROM admin_role WHERE role_id in(select role_id from role_info where name like CONCAT ('%',#{name},'%')))
+      <if test="name!=null">
+        and admin_id in (SELECT admin_id FROM admin_role WHERE role_id in(select role_id from role_info where name like CONCAT('%',#{name},'%')))
       </if>
     </where>
   </select>

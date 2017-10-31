@@ -18,7 +18,7 @@ public class AdminInfo {
 
     private Date enrolldate;
 
-List<RoleInfo>roleInfos;
+    List<RoleInfo> roleInfos;
 
     public List<RoleInfo> getRoleInfos() {
         return roleInfos;
@@ -95,6 +95,7 @@ List<RoleInfo>roleInfos;
                 ", telephone='" + telephone + '\'' +
                 ", email='" + email + '\'' +
                 ", enrolldate=" + enrolldate +
+                ", roleInfos=" + roleInfos +
                 '}';
     }
 }

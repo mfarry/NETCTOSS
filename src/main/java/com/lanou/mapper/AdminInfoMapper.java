@@ -19,17 +19,17 @@ public interface AdminInfoMapper {
 
     int updateByPrimaryKey(AdminInfo record);
 
-  AdminInfo  find(AdminInfo adminInfo);
+    AdminInfo find(AdminInfo adminInfo);
 
-  List<AdminInfo>queryAllAdmin();
+    List<AdminInfo> queryAllAdmin();
 
-  int delAdminRole(Integer adminId);
+    int delAdminRole(Integer adminId);
 
-  AdminInfo searchAdminNameById(AdminInfo adminInfo);
+    AdminInfo searchAdminNameById(AdminInfo adminInfo);
 
-  int addAdminMid(@Param("adminId") Integer adminId, @Param("roleId") Integer roleId);
+    int addAdminMid(@Param("adminId") Integer adminId, @Param("roleId") Integer roleId);
 
-  List<ModuleInfo>getAllModule();
+    List<ModuleInfo> getAllModule();
 
-    List<AdminInfo>hlSearchAdmin(@Param("moduleId") Integer moduleId,@Param("name") String name);
+    List<AdminInfo> hlSearchAdmin(@Param("moduleId") Integer moduleId, @Param("name") String name);
 }

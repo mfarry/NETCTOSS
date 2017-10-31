@@ -9,42 +9,43 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script language="javascript" type="text/javascript">
 
-function getAllModule() {
-    $.ajax({
-        url:"/getAllModule",
-        success:function (res) {
-            var data = res.data;
-        for (var i=0;i<data.length;i++){
-            var modName = data[i].name;
-var opt=$("<option value='"+data[i].moduleId+"'>"+modName+"</option>")
-            $("#selModules").append(opt)
+        function getAllModule() {
+            $.ajax({
+                url: "/getAllModule",
+                success: function (res) {
+                    var data = res.data;
+                    for (var i = 0; i < data.length; i++) {
+                        var modName = data[i].name;
+                        var opt = $("<option value='" + data[i].moduleId + "'>" + modName + "</option>")
+                        $("#selModules").append(opt)
+                    }
+
+
+                }
+            })
         }
 
 
+        //高级查询
+        function hlSearchAdmin() {
+            $.ajax({
+                url: "/hlSearchAdmin",
+                type: "POST",
+                data: {
+                    moduleId: $("#selModules option:selected").val(),
+                    name: $("#role").val()
+                },
+                success: function (res) {
+                    console.log(res);
+                    var data = res.data;
+                    $(".emp").remove()
+
+                    for (var i = 0; i < data.length; i++) {
+                        addNewTr(data[i]);
+                    }
+                }
+            })
         }
-    })
-}
-
-
-
-
-//高级查询
-function hlSearchAdmin() {
-    $.ajax({
-        url:"/hlSearchAdmin",
-        type:"POST",
-        data:{
-            moduleId:$("#selModules option:selected").val(),
-            name:$("#role").val()
-        },
-        success:function (res) {
-       var data = res.data;
-       $(".emp").remove()
-            addNewTr(data)
-        }
-    })
-}
-
 
 
         function queryAllAdmin() {
@@ -75,14 +76,14 @@ function hlSearchAdmin() {
             var email = $("<td></td>").html(msg.email);
             var enrolldate = $("<td></td>").html(msg.enrolldate);
             var rol = new Array();
-            var roleInfo=msg.roleInfos;
-            for (var i = 0; i < roleInfo.length; i++) {
-                var rinfo = roleInfo[i].moduleInfoList;
-                for (var j = 0; j < rinfo.length; j++) {
-                    var modName = rinfo[j].name;
+            var roleInfo = msg.roleInfos;
 
-                    rol.push(modName)
-                }
+            for (var i = 0; i < roleInfo.length; i++) {
+                var rinfo = roleInfo[i].name;
+
+
+                    rol.push(rinfo)
+
             }
             var role = $("<td></td>").html("<a class='summary'  onmouseover='showDetail(true,this);' onmouseout='showDetail(false,this);'>" + rol[0] + "</a><div class='detail_info'>" + rol + "</div>");
             var update = $("<td></td>").html("<a href='/AdmMod'> <input type='button' value='修改' class='btn_modify' /></a>").click(findAdId).attr("upd", msg.adminId);
@@ -93,8 +94,8 @@ function hlSearchAdmin() {
             $("#datalist").append(trob)
         }
 
-//根据id找admin_info全部,结果存入session中,跳转到修改页面
-function findAdId() {
+        //根据id找admin_info全部,结果存入session中,跳转到修改页面
+        function findAdId() {
             var mid = $(this).attr("upd");
             $.ajax({
                 url: "/findAdId",
@@ -153,7 +154,7 @@ function findAdId() {
 
         }
 
-//        根据id删除role_info
+        //        根据id删除role_info
         function delAdmin() {
             var mid = $(this).attr("del");
             $.ajax({
@@ -167,7 +168,7 @@ function findAdId() {
             })
         }
 
-//根据id删除中间表
+        //根据id删除中间表
         function delAdminRole(result) {
             $.ajax({
                 url: "/delAdminRole",

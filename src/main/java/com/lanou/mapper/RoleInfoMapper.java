@@ -3,6 +3,7 @@ package com.lanou.mapper;
 import com.lanou.bean.RoleInfo;
 import org.apache.ibatis.annotations.Param;
 
+import javax.management.relation.Role;
 import java.util.List;
 
 public interface RoleInfoMapper {
@@ -27,5 +28,7 @@ public interface RoleInfoMapper {
     RoleInfo searchNameId(RoleInfo roleInfo);
 
     int deleteMid(Integer roleId);
+
+    List<Role> findRoleInfo(@Param("adminId") Integer adminId);
 
 }
